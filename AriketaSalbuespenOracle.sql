@@ -125,13 +125,11 @@ END;
 --RAISE ENUNTZIATUA
 
  --Ariekta 1
-
 SET SERVEROUTPUT ON
 DECLARE
 KONTROL_ESKUALDEAK EXCEPTION;
 regn NUMBER; 
 regt varchar2(200);
-
 BEGIN
 regn := 201;
 regt:='ASIA';
@@ -141,12 +139,28 @@ else
 insert into REGIONS values(regn,regt);
 END IF;
 EXCEPTION
-
 when KONTROL_ESKUALDEAK THEN
-
+ raise_application_error(-20001,'Errore bat aurkitu da -   KODEA: '||SQLCODE||' -ERROREA: -Kode ez baimendua. 200 baino txikiagoa izan behar du');
 DBMS_OUTPUT.PUT_LINE('Kode ez baimendua. 200 baino txikiagoa izan behar du');
 WHEN OTHERS THEN
 DBMS_OUTPUT.PUT_LINE('Zehaztu gabeko errorea');
 
 END;
 
+--Modua 2
+
+SET SERVEROUTPUT ON
+DECLARE
+KONTROL_ESKUALDEAK EXCEPTION;
+regn NUMBER; 
+regt varchar2(200);
+BEGIN
+regn := 201;
+regt:='ASIA';
+IF regn > 200 THEN
+raise_application_error(-20001,'Errore bat aurkitu da -   KODEA: '||SQLCODE||' -ERROREA: -Kode ez baimendua. 200 baino txikiagoa izan behar du');
+else
+insert into REGIONS values(regn,regt);
+END IF;
+
+END;
